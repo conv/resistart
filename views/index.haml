@@ -1,0 +1,8 @@
+%h1 Would you like to visit some of these sites?
+%table.display
+  %thead
+    %th My name is...
+    %th Url
+  - @f.each do |item|
+    %td= item.name
+    %td= item.url

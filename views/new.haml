@@ -1,0 +1,10 @@
+%h1 Some header
+%form{ :action => "", :method => "post"}
+  %fieldset
+    %label{:for => "name"} Name:
+    %input{:type => "text", :name => "name", :class => "text"}
+    %label{:for => "url"} Url:
+    %input{:name => "url"}
+    %input{:type => "submit", :value => "Send", :class => "button"}
+  - if defined?(@url)
+    %pre= @result
