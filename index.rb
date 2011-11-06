@@ -4,7 +4,9 @@ require "sinatra"
 require "haml"
 require "dm-core"
 require "dm-migrations"
+require "dm-validations"
 
+DataMapper::Logger.new('dm.log', :debug)
 DataMapper.setup(:default, 'sqlite3::memory:')
 
 class Item
@@ -13,28 +15,28 @@ class Item
   property :id, Serial
   property :name, String
   property :url, String
+
+  validates_format_of :url, :as => :url
 end
 
 Item.auto_migrate!
 
 get '/' do
-  @f = Item.all
+  @items = Item.all
   haml :index
 end
 
-#new
-#
+#New url
+
 get '/new' do
+  #@item = Item.create(:name => params[:name], :url => params[:url])
   haml :new
 end
 
 post '/new' do
-  @name = params[:name]
-  @url = params[:url]
+  @item = Item.create(:name => params[:name], :url => params[:url])
+  @err = @item.errors
 
-  item = Item.create(:name => params[:name], :url => params[:url])
-
-  #haml :new
-  redirect '/'
+  redirect '/' if @err.empty?
+  haml :new
 end
-

@@ -3,6 +3,7 @@
   %thead
     %th My name is...
     %th Url
-  - @f.each do |item|
-    %td= item.name
-    %td= item.url
+  - @items.each do |item|
+    %tr
+      %td= item.name
+      %td= item.url

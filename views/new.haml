@@ -6,5 +6,9 @@
     %label{:for => "url"} Url:
     %input{:name => "url"}
     %input{:type => "submit", :value => "Send", :class => "button"}
-  - if defined?(@url)
-    %pre= @result
+  - if @err.nil?
+    %p Create new record
+  - elsif @err.empty?
+    %p Added
+  - elsif @err
+    %p Something's wrong with url
