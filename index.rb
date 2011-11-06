@@ -29,7 +29,6 @@ end
 #New url
 
 get '/new' do
-  #@item = Item.create(:name => params[:name], :url => params[:url])
   haml :new
 end
 

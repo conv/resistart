@@ -1,14 +1,13 @@
-%h1 Some header
-%form{ :action => "", :method => "post"}
-  %fieldset
+%h1 Create new record
+%form.form-stacked{ :action => "", :method => "post"}
+  %fieldset.clearfix
     %label{:for => "name"} Name:
-    %input{:type => "text", :name => "name", :class => "text"}
+    %input.span4{:type => "text", :name => "name", :class => "text" }
+    %br/
     %label{:for => "url"} Url:
-    %input{:name => "url"}
-    %input{:type => "submit", :value => "Send", :class => "button"}
-  - if @err.nil?
-    %p Create new record
-  - elsif @err.empty?
-    %p Added
-  - elsif @err
-    %p Something's wrong with url
+    %input.span4{:type => "url", :name => "url", :value => "http://"}
+    %input.btn.primary{:type => "submit", :value => "Send", :class => "button"}
+- if @err.nil?
+- elsif @err
+  .alert-message.error
+    %p= "Url \"#{@item.url}\" is invalid"

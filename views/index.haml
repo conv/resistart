@@ -1,9 +1,6 @@
 %h1 Would you like to visit some of these sites?
-%table.display
-  %thead
-    %th My name is...
-    %th Url
+%ul
   - @items.each do |item|
-    %tr
-      %td= item.name
-      %td= item.url
+    %li
+      %a{:href => item.url}
+        = item.name
