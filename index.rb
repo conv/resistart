@@ -6,8 +6,10 @@ require "dm-core"
 require "dm-migrations"
 require "dm-validations"
 
+#use Rack::MethodOverride
+
 DataMapper::Logger.new('dm.log', :debug)
-DataMapper.setup(:default, 'sqlite3::memory:')
+DataMapper.setup(:default, "sqlite://#{Dir.pwd}/bmarks.db")
 
 class Item
   include DataMapper::Resource
@@ -19,11 +21,17 @@ class Item
   validates_format_of :url, :as => :url
 end
 
-Item.auto_migrate!
+#Item.auto_migrate!
+Item.auto_upgrade!
 
 get '/' do
   @items = Item.all
   haml :index
+end
+
+get '/url/:id' do |id|
+  @i = Item.get id
+  @i.name + " " + @i.url
 end
 
 #New url
@@ -38,4 +46,11 @@ post '/new' do
 
   redirect '/' if @err.empty?
   haml :new
+end
+
+delete '/url/' do
+  @rm = Item.get(params[:id])
+  @rm.destroy
+
+  redirect '/'
 end

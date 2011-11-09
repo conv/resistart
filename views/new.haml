@@ -1,13 +1,20 @@
 %h1 Create new record
+
 %form.form-stacked{ :action => "", :method => "post"}
+  
   %fieldset.clearfix
     %label{:for => "name"} Name:
     %input.span4{:type => "text", :name => "name", :class => "text" }
-    %br/
+  
+  %fieldset.clearfix.url
     %label{:for => "url"} Url:
     %input.span4{:type => "url", :name => "url", :value => "http://"}
-    %input.btn.primary{:type => "submit", :value => "Send", :class => "button"}
+  
+  %div.actions
+    %input.btn.primary{:name => "newurl", :type => "submit", :value => "Send", :class => "button"}
+
 - if @err.nil?
+
 - elsif @err
   .alert-message.error
     %p= "Url \"#{@item.url}\" is invalid"
