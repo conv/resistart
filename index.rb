@@ -8,6 +8,10 @@ require "dm-validations"
 
 #use Rack::MethodOverride
 
+## Database config
+#
+#
+
 DataMapper::Logger.new('dm.log', :debug)
 DataMapper.setup(:default, "sqlite://#{Dir.pwd}/bmarks.db")
 
@@ -24,17 +28,14 @@ end
 #Item.auto_migrate!
 Item.auto_upgrade!
 
+## App
+#
+#
+
 get '/' do
   @items = Item.all
   haml :index
 end
-
-get '/url/:id' do |id|
-  @i = Item.get id
-  @i.name + " " + @i.url
-end
-
-#New url
 
 get '/new' do
   haml :new
@@ -48,9 +49,31 @@ post '/new' do
   haml :new
 end
 
-delete '/url/' do
+get '/edit/:id' do |id|
+  @i = Item.get id
+  haml :edit
+end
+
+put '/edit/' do 
+  id = params[:id]
+
+  unless id == ""
+    name = params[:name]
+    url = params[:url]
+
+    unless name == "" && url == ""
+      item = Item.get id
+      item.name = name
+      item.url = url
+      item.save
+    end
+  end
+  redirect '/'
+end
+
+delete '/delete' do
   @rm = Item.get(params[:id])
   @rm.destroy
-
+  @r = true
   redirect '/'
 end

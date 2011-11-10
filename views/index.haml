@@ -1,12 +1,11 @@
 %h1 Would you like to visit some of these sites?
+- if @r
+  Deleted
+
 %ul
   - @items.each do |item|
     %li
       %a{:href => "#{item.url}"}
         = item.name
-      %form{:method => "post", :action => "/url/"}
-        %input{:type => "hidden", :name => "_method", :value => "delete"}
-        %input{:type => "hidden", :name => "id", :value => item.id}
-        %a{:href => "/url/#{item.id}"}
-          = item.name
-        %input.btn.danger{:type => "submit", :value => "Delete"}
+      %a{:href => "/edit/#{item.id}"}
+        Edit

@@ -16,4 +16,8 @@ $(document).ready(function() {
       }
   });
 
+  $('input[value="Delete"]').click(function() {
+    alert($(this).attr('id'));
+  });
+
 });

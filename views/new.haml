@@ -14,7 +14,7 @@
     %input.btn.primary{:name => "newurl", :type => "submit", :value => "Send", :class => "button"}
 
 - if @err.nil?
-
+  - true
 - elsif @err
   .alert-message.error
     %p= "Url \"#{@item.url}\" is invalid"
