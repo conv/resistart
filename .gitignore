@@ -3,3 +3,4 @@
 *.conf
 *.log
 tmp/*
+.gems

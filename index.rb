@@ -13,7 +13,9 @@ require "dm-validations"
 #
 
 DataMapper::Logger.new('dm.log', :debug)
-DataMapper.setup(:default, "sqlite://#{Dir.pwd}/bmarks.db")
+#DataMapper.setup(:default, "sqlite://#{Dir.pwd}/bmarks.db")
+
+DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/mydatabase.db")
 
 class Item
   include DataMapper::Resource
