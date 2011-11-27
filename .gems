@@ -1,4 +1,4 @@
 sinatra
 data_mapper
-builder
+haml
 dm-postgres-adapter
