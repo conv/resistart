@@ -15,7 +15,7 @@ require "dm-validations"
 DataMapper::Logger.new('dm.log', :debug)
 #DataMapper.setup(:default, "sqlite://#{Dir.pwd}/bmarks.db")
 
-DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/mydatabase.db")
+DataMapper.setup(:default, (ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/mydatabase.db"))
 
 class Item
   include DataMapper::Resource
@@ -37,10 +37,11 @@ class Article
 end
 
 #Item.auto_upgrade!
-Item.auto_migrate!
-Article.auto_migrate!
+#Item.auto_migrate!
+#Article.auto_migrate!
 
-DataMapper.finalize
+#DataMapper.finalize
+DataMapper.auto_upgrade!
 
 get '/' do
   @items = Item.all
