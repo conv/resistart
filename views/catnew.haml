@@ -1,0 +1,11 @@
+%h1 Create category
+
+%form.form-stacked{ :action => "/category/new", :method => "post"}
+  
+  %fieldset.clearfix
+    %label{:for => "name"} Name:
+    %input.span4{:type => "text", :name => "name", :class => "text" }
+
+  %div.actions
+    %input.btn.primary{:type => "submit", :value => "Send", :class => "button"}
+

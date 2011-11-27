@@ -10,6 +10,10 @@
     %label{:for => "url"} Url:
     %input.span4{:type => "url", :name => "url", :value => "http://"}
   
+  %fieldset.clearfix
+    %label{:for => "description"} Description:
+    %textarea.span4{:type => "text", :name => "description", :class => "text", rows: 3 }
+
   %div.actions
     %input.btn.primary{:name => "newurl", :type => "submit", :value => "Send", :class => "button"}
 
@@ -17,4 +21,5 @@
   - true
 - elsif @err
   .alert-message.error
-    %p= "Url \"#{@item.url}\" is invalid"
+    -#%p= "Url \"#{@item.url}\" is invalid"
+    =@err.all

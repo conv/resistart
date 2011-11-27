@@ -1,0 +1,22 @@
+%h1 Create new article
+
+%form.form-stacked{ :action => "", :method => "post"}
+  
+  %fieldset.clearfix
+    %label{:for => "title"} Title:
+    %input.span4{:type => "text", :name => "title", :class => "text" }
+  
+  
+  %fieldset.clearfix
+    %label{:for => "content"} Content:
+    %textarea.span4{:type => "text", :name => "content", :class => "text", rows: 3 }
+
+  %div.actions
+    %input.btn.primary{:name => "article", :type => "submit", :value => "Send", :class => "button"}
+
+- if @err.nil?
+  - true
+- elsif @err
+  .alert-message.error
+    -#%p= "Url \"#{@item.url}\" is invalid"
+    =@err.all

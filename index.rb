@@ -21,59 +21,95 @@ class Item
   property :id, Serial
   property :name, String
   property :url, String
+  property :description, String
 
   validates_format_of :url, :as => :url
 end
 
-#Item.auto_migrate!
-Item.auto_upgrade!
+class Article
+  include DataMapper::Resource
 
-## App
-#
-#
+  property :id, Serial
+  property :title, String
+  property :content, Text
+end
+
+#Item.auto_upgrade!
+Item.auto_migrate!
+Article.auto_migrate!
+
+DataMapper.finalize
 
 get '/' do
   @items = Item.all
+  @articles = Article.all
   haml :index
 end
 
-get '/new' do
+
+### ITEM
+get '/item/new' do
   haml :new
 end
 
-post '/new' do
-  @item = Item.create(:name => params[:name], :url => params[:url])
+post '/item/new' do
+  @item = Item.create(:name        => params[:name],
+                      :url         => params[:url],
+                      :description => params[:description])
   @err = @item.errors
 
   redirect '/' if @err.empty?
   haml :new
 end
 
-get '/edit/:id' do |id|
-  @i = Item.get id
+get '/item/edit/:id' do |id|
+  @item = Item.get id
+  @title = "Edit item #{@item.name}"
   haml :edit
 end
 
-put '/edit/' do 
-  id = params[:id]
+post '/item/edit/:id' do |id|
+  i = Item.get id
+  i.update params
 
-  unless id == ""
-    name = params[:name]
-    url = params[:url]
-
-    unless name == "" && url == ""
-      item = Item.get id
-      item.name = name
-      item.url = url
-      item.save
-    end
-  end
   redirect '/'
 end
 
-delete '/delete' do
+delete '/item/delete' do
   @rm = Item.get(params[:id])
   @rm.destroy
   @r = true
   redirect '/'
 end
+
+### ARTICLE
+get '/article/show/:id' do |id|
+  @article = Article.get id
+  haml :read_art
+end
+
+get '/article/new' do
+  haml :articlenew
+end
+
+post '/article/new' do
+  @art = Article.create(:title  => params[:title],
+                        :content => params[:content])
+  @err = @art.errors
+
+  redirect '/' if @err.empty?
+  haml :articlenew
+end
+
+get '/article/edit/:id' do |id|
+  @article = Article.get id
+  haml :art_edit
+end
+
+post '/article/edit/:id' do |id|
+  art = Article.get id
+  art.update params
+
+  redirect '/'
+end
+

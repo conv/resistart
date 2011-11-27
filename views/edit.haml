@@ -1,0 +1,41 @@
+%h1= "Edit #{@title}"
+
+%form.form-stacked{ :action => "/item/edit/#{@item.id}", :method => "post"}
+  
+  %fieldset.clearfix
+    %label{:for => "name"} Name:
+    %input.span4{:type  => "text",
+                 :name  => "name",
+                 :class => "text",
+                 :value => "#{@item.name}" }
+  
+  %fieldset.clearfix.url
+    %label{:for => "url"} Url:
+    %input.span4{:type => "url",
+                 :name => "url",
+                 :value => "#{@item.url}"}
+  
+  %fieldset.clearfix
+    %label{:for => "description"} Description:
+    %textarea.span4{:type => "text",
+                    :name => "description",
+                    :class => "text",
+                    rows: 3}= @item.description
+  
+  %fieldset.clearfix
+    %label{:for => "cat_id"} Category:
+    %select{:name => "cat_id"}
+      - Category.all.each do |cat|
+        %option{:value => "#{cat.id}"}= cat.name
+ 
+  %div.actions
+    %input.btn.primary{#:name => "newurl",
+                       :type => "submit",
+                       :value => "Send",
+                       :class => "button"}
+
+- if @err.nil?
+  - true
+- elsif @err
+  .alert-message.error
+    %p= "Url \"#{@item.url}\" is invalid"

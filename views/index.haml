@@ -1,11 +1,22 @@
-%h1 Would you like to visit some of these sites?
-- if @r
-  Deleted
+.sidebar
+  .well
+    - @articles.each do |art|
+      %a{:href => "/article/show/#{art.id}"}
+        %h2= art.title
+      %p= art.content.split(' ')[0..2].join(' ')
 
-%ul
-  - @items.each do |item|
-    %li
-      %a{:href => "#{item.url}"}
-        = item.name
-      %a{:href => "/edit/#{item.id}"}
-        Edit
+.content
+  .hero-unit
+    %h1 Wanna read something?
+    %p It's probably the best place in the Internet to read something!
+    - if @r
+      Deleted
+
+  .row
+    - @items.each do |item|
+      .span5
+        %a{:href => "#{item.url}"}
+          = item.name
+        %p= item.description
+        %a{:href => "/item/edit/#{item.id}"}
+          .small Edit

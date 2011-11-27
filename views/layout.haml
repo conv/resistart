@@ -1,18 +1,27 @@
-!!!
+!!! 5
 %html
   %head
 
-    %link{"rel" => "stylesheet", "href" => "http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css", "type" => "text/css"}
-
+    -#%link{"rel" => "stylesheet", "href" => "http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css", "type" => "text/css"}
+    %link{"rel" => "stylesheet", "href" => "/bootstrap.css", "type" => "text/css"}
     %script{"type" => "text/javascript", "src" => "http://code.jquery.com/jquery-1.7.min.js"}
     %script{"type" => "text/javascript", "src" => "/js/base.js"}
     %script{"type" => "text/javascript", "src" => "/js/jquery.validate.min.js"}
 
   %body
-  .container
-    %a(href="/")
-      Home
-    %a(href="new")
-      New url
+    .topbar-wrapper{:style => "z-index: 5;"}
+      .topbar
+        .topbar-inner
+          .container-fluid
+            %a.brand(href="/")
+              Home
+            %ul
+              %li
+                %a(href="/item/new")
+                  New url
+              %li
+                %a(href="/article/new")
+                  New article
 
-    =yield
+    .container-fluid=yield
+
