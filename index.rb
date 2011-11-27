@@ -85,11 +85,11 @@ end
 ### ARTICLE
 get '/article/show/:id' do |id|
   @article = Article.get id
-  haml :read_art
+  haml :art_read
 end
 
 get '/article/new' do
-  haml :articlenew
+  haml :art_new
 end
 
 post '/article/new' do
@@ -98,7 +98,7 @@ post '/article/new' do
   @err = @art.errors
 
   redirect '/' if @err.empty?
-  haml :articlenew
+  haml :art_new
 end
 
 get '/article/edit/:id' do |id|
