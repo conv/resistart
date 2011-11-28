@@ -8,30 +8,25 @@
 
     %h3 Notes <small>recent</small>
     - @articles.each do |art|
-      %a{:href => "/article/show/#{art.id}"}
+      %a{:href => "/article/#{art.id}"}
         %h5
           = art.title
 
     %hr
 
     %a{:href => "/links"}
-      %h4 All links
+      %h6 All links
 
     %a{:href => "/articles"}
-      %h4 All articles
-
-    %hr
-
+      %h6 All articles
 
 .content
   .hero-unit
     %h1 Wanna read something?
     %p It's probably the best place in the Internet to read something!
-    - if @r
-      Deleted
 
   .row
-    - @items.each do |item|
+    - @items[0..11].each do |item|
       .span4
         %a{:href => "#{item.url}"}
           %h2= item.name

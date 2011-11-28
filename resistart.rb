@@ -35,19 +35,25 @@ class Article
   property :id, Serial
   property :title, String
   property :content, Text
-  property :created, Date
+  property :created, DateTime
+  property :updated, DateTime
 end
 
 DataMapper.auto_upgrade!
 
 get '/' do
   @items = Item.all
-  @articles = Article.all
+  @articles = Article.all(:order => [:created.desc])
   @rss = SimpleRSS.parse open('http://slashdot.org/index.rdf')
   haml :index
 end
 
 ### ITEM
+get '/links' do
+  @links = Item.all
+  haml :link_all
+end
+
 get '/link/new' do
   haml :new
 end
@@ -56,26 +62,21 @@ post '/link/new' do
   @item = Item.create(:name        => params[:name],
                       :url         => params[:url],
                       :description => params[:description])
-  @err = @item.errors
 
-  redirect '/' if @err.empty?
+  @errors = @item.errors
+  redirect '/' if @errors.empty?
   haml :new
 end
 
-get '/links' do
-  @links = Item.all
-  haml :link_all
-end
-
 get '/link/edit/:id' do |id|
-  @item = Item.get id
-  @title = "Edit item #{@item.name}"
+  @link = Item.get id
+  @title = "Edit item #{@link.name}"
   haml :edit
 end
 
 post '/link/edit/:id' do |id|
-  i = Item.get id
-  i.update params
+  link = Item.get id
+  link.update params
 
   redirect '/'
 end
@@ -85,18 +86,13 @@ get '/link/delete/:id' do |id|
   #haml :delete
 end
 
-delete '/link/:id' do |id|
+delete '/link/delete/:id' do |id|
   link = Item.get id
   link.destroy
   redirect '/links/all'
 end
 
 ### ARTICLE
-get '/article/read/:id' do |id|
-  @article = Article.get id
-  haml :art_read
-end
-
 get '/articles' do
   @articles = Article.all
   haml :art_all
@@ -108,7 +104,8 @@ end
 
 post '/article/new' do
   @art = Article.create(:title  => params[:title],
-                        :content => params[:content])
+                        :content => params[:content],
+                        :created => DateTime.now)
   @err = @art.errors
 
   redirect '/' if @err.empty?
@@ -122,8 +119,13 @@ end
 
 post '/article/edit/:id' do |id|
   art = Article.get id
-  art.update params
+  updated = {:updated => DateTime.now }
+  art.update params.merge(updated)
 
   redirect '/'
 end
 
+get '/article/:id' do |id|
+  @article = Article.get id
+  haml :art_read
+end

@@ -1,26 +1,26 @@
 %h1= "#{@title}"
 
-%form.form-stacked{ :action => "/item/edit/#{@item.id}", :method => "post"}
+%form.form-stacked{ :action => "/link/edit/#{@link.id}", :method => "post"}
   
   %fieldset.clearfix
     %label{:for => "name"} Name:
     %input.span4{:type  => "text",
                  :name  => "name",
                  :class => "text",
-                 :value => "#{@item.name}" }
+                 :value => "#{@link.name}" }
   
   %fieldset.clearfix.url
     %label{:for => "url"} Url:
     %input.span4{:type => "url",
                  :name => "url",
-                 :value => "#{@item.url}"}
+                 :value => "#{@link.url}"}
   
   %fieldset.clearfix
     %label{:for => "description"} Description:
     %textarea.span4{:type => "text",
                     :name => "description",
                     :class => "text",
-                    rows: 3}= @item.description
+                    rows: 3}= @link.description
   
   %div.actions
     %input.btn.primary{#:name => "newurl",
@@ -32,4 +32,4 @@
   - true
 - elsif @err
   .alert-message.error
-    %p= "Url \"#{@item.url}\" is invalid"
+    %p= "Url \"#{@link.url}\" is invalid"

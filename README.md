@@ -1,4 +1,4 @@
-(Really) simple startpage
+REally SImple STARTpage
 =========================
 
 For now it's just for fun, but who knows, maybe sometime it will become the most popular Sinatra app?

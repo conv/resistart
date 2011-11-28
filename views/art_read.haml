@@ -1,4 +1,10 @@
-%h1= @article.title
-%p
-  :markdown
-    #{@article.content}
+.content
+  %h1= @article.title
+  %p= @article.created.strftime("%Y-%m-%d %H:%M") unless @article.created.nil?
+  %p= @article.updated.strftime("%Y-%m-%d %H:%M") unless @article.created.nil?
+
+  %a{:href => "/article/edit/#{@article.id}"}
+    %span.label.notice Edit
+  %p
+    :markdown
+      #{@article.content}

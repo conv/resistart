@@ -4,22 +4,24 @@
   
   %fieldset.clearfix
     %label{:for => "title"} Title:
-    %input.span4{:type => "text",
+    %input{:type => "text",
                  :name => "title",
                  :class => "text",
                  :value => "#{@article.title}"}
   
   
-  %fieldset.clearfix
+  .clearfix
     %label{:for => "content"} Content:
-    %textarea.span4{:type => "text",
+    %textarea.span12{:type => "text",
+                    :rows => 12,
                     :name => "content",
                     :class => "text",
-                    rows: 3,
-                    :value => "#{@article.content}"}
+                    :style => "font-family: monospace;"}= @article.content
+    %span.help-block You can use markdown syntax
 
   %div.actions
-    %input.btn.primary{:type => "submit", :value => "Send", :class => "button"}
+    %input.btn.primary{:type => "submit", :value => "Update", :class => "button"}
+    %button.btn{:type => "reset"} Cancel
 
 - if @err.nil?
   - true
