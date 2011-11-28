@@ -1,9 +1,27 @@
 .sidebar
   .well
+    %h3= "#{@rss.title} <small>recent</small>"
+    - @rss.items[0..2].each do |feed|
+      %a{:href => "#{feed.link}"}
+        %p= feed.title
+    %hr
+
+    %h3 Notes <small>recent</small>
     - @articles.each do |art|
       %a{:href => "/article/show/#{art.id}"}
-        %h2= art.title
-      %p= art.content.split(' ')[0..2].join(' ')
+        %h5
+          = art.title
+
+    %hr
+
+    %a{:href => "/links"}
+      %h4 All links
+
+    %a{:href => "/articles"}
+      %h4 All articles
+
+    %hr
+
 
 .content
   .hero-unit
@@ -14,9 +32,8 @@
 
   .row
     - @items.each do |item|
-      .span5
+      .span4
         %a{:href => "#{item.url}"}
-          = item.name
+          %h2= item.name
         %p= item.description
-        %a{:href => "/item/edit/#{item.id}"}
-          .small Edit
+  

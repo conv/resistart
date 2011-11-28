@@ -5,6 +5,8 @@ require "haml"
 require "dm-core"
 require "dm-migrations"
 require "dm-validations"
+require "simple-rss"
+require "open-uri"
 
 #use Rack::MethodOverride
 
@@ -13,7 +15,6 @@ require "dm-validations"
 #
 
 DataMapper::Logger.new('dm.log', :debug)
-#DataMapper.setup(:default, "sqlite://#{Dir.pwd}/bmarks.db")
 
 DataMapper.setup(:default, (ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/mydatabase.db"))
 
@@ -23,7 +24,7 @@ class Item
   property :id, Serial
   property :name, String
   property :url, String
-  property :description, String
+  property :description, Text
 
   validates_format_of :url, :as => :url
 end
@@ -34,28 +35,24 @@ class Article
   property :id, Serial
   property :title, String
   property :content, Text
+  property :created, Date
 end
 
-#Item.auto_upgrade!
-#Item.auto_migrate!
-#Article.auto_migrate!
-
-#DataMapper.finalize
 DataMapper.auto_upgrade!
 
 get '/' do
   @items = Item.all
   @articles = Article.all
+  @rss = SimpleRSS.parse open('http://slashdot.org/index.rdf')
   haml :index
 end
 
-
 ### ITEM
-get '/item/new' do
+get '/link/new' do
   haml :new
 end
 
-post '/item/new' do
+post '/link/new' do
   @item = Item.create(:name        => params[:name],
                       :url         => params[:url],
                       :description => params[:description])
@@ -65,30 +62,44 @@ post '/item/new' do
   haml :new
 end
 
-get '/item/edit/:id' do |id|
+get '/links' do
+  @links = Item.all
+  haml :link_all
+end
+
+get '/link/edit/:id' do |id|
   @item = Item.get id
   @title = "Edit item #{@item.name}"
   haml :edit
 end
 
-post '/item/edit/:id' do |id|
+post '/link/edit/:id' do |id|
   i = Item.get id
   i.update params
 
   redirect '/'
 end
 
-delete '/item/delete' do
-  @rm = Item.get(params[:id])
-  @rm.destroy
-  @r = true
-  redirect '/'
+get '/link/delete/:id' do |id|
+  @link = Item.get id
+  #haml :delete
+end
+
+delete '/link/:id' do |id|
+  link = Item.get id
+  link.destroy
+  redirect '/links/all'
 end
 
 ### ARTICLE
-get '/article/show/:id' do |id|
+get '/article/read/:id' do |id|
   @article = Article.get id
   haml :art_read
+end
+
+get '/articles' do
+  @articles = Article.all
+  haml :art_all
 end
 
 get '/article/new' do

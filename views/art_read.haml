@@ -1,2 +1,4 @@
 %h1= @article.title
-%p= @article.content
+%p
+  :markdown
+    #{@article.content}

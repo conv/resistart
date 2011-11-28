@@ -1,4 +1,4 @@
 require "sinatra"
-require File.expand_path('.', "index.rb")
+require File.dirname(__FILE__) + 'resistart'
 
 run Sinatra::Application

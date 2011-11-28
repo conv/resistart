@@ -1,4 +1,4 @@
-%h1= "Edit #{@title}"
+%h1= "#{@title}"
 
 %form.form-stacked{ :action => "/item/edit/#{@item.id}", :method => "post"}
   
@@ -22,12 +22,6 @@
                     :class => "text",
                     rows: 3}= @item.description
   
-  %fieldset.clearfix
-    %label{:for => "cat_id"} Category:
-    %select{:name => "cat_id"}
-      - Category.all.each do |cat|
-        %option{:value => "#{cat.id}"}= cat.name
- 
   %div.actions
     %input.btn.primary{#:name => "newurl",
                        :type => "submit",
